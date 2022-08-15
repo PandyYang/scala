@@ -1143,40 +1143,44 @@ class ClassName [descriptor] [([descriptor][val/var] arg1: Arg1Type, [descriptor
 }
 ```
 - 例子：
+
 ```scala
+import caseclass.Person
+
 object Constructor {
-    def main(args: Array[String]): Unit = {
-        val p: Person = new Person()
-        p.Person() // call main constructor
+  def main(args: Array[String]): Unit = {
+    val p: caseclass.Person = new caseclass.Person()
+    p.caseclass.Person() // call main constructor
 
-        val p1 = new Person("alice")
-        val p2 = new Person("bob", 25)
-        p1.Person()
-    }
+    val p1 = new Person("alice")
+    val p2 = new Person("bob", 25)
+    p1.caseclass.Person()
+  }
 }
-class Person {
-    var name: String = _
-    var age: Int = _
-    println("call main construtor")
 
-    def this(name: String) {
-        this()
-        println("call assist constructor 1")
-        this.name = name
-        println(s"Person: $name $age")
-    }
+class caseclass.Person {
+  var name: String = _
+  var age: Int = _
+  println("call main construtor")
 
-    def this(name: String, age: Int) {
-        this(name)
-        this.age = age
-        println("call assist constructor 2")
-        println(s"Person: $name $age")
-    }
+  def this(name: String) {
+    this()
+    println("call assist constructor 1")
+    this.name = name
+    println(s"caseclass.Person: $name $age")
+  }
 
-    // just a common method, not constructor
-    def Person(): Unit = {
-        println("call Person.Person() method")
-    }
+  def this(name: String, age: Int) {
+    this(name)
+    this.age = age
+    println("call assist constructor 2")
+    println(s"caseclass.Person: $name $age")
+  }
+
+  // just a common method, not constructor
+  def caseclass.Person(): Unit = {
+    println("call caseclass.Person.caseclass.Person() method")
+  }
 }
 ```
 - 特点：
@@ -1195,7 +1199,7 @@ class Person {
     - 推荐使用scala风格的主构造器`var val`修饰参数的编写方法，而不要被Java毒害！
     - 如果需要多种重载的构造器那么就添加新的的辅助构造器。
 ```scala
-class Person(private var name: String) {
+class caseclass.Person(private var name: String) {
     var age: Int = _
     println("call main construtor")
 
@@ -1203,12 +1207,12 @@ class Person(private var name: String) {
         this(name)
         this.age = age
         println("call assist constructor 2")
-        println(s"Person: $name $age")
+        println(s"caseclass.Person: $name $age")
     }
 
     // just a common method, not constructor
-    def Person(): Unit = {
-        println("call Person.Person() method")
+    def caseclass.Person(): Unit = {
+        println("call caseclass.Person.caseclass.Person() method")
     }
 }
 ```
@@ -1275,8 +1279,9 @@ trait traitName {
 - 也就是说基类和特征基本是同等地位。
 - 例子：
 ```scala
+import caseclass.Person
 class Person {
-    val name: String = "Person"
+    val name: String = "caseclass.Person"
     var age: Int = 18
 
     def sayHi(): Unit = {
@@ -2017,37 +2022,41 @@ for (arr <- List(
 - 样例类定义中主构造参数列表中的`val`甚至都可以省略，如果是`var`的话则不能省略，最好加上的感觉，奇奇怪怪的各种边角简化。
 
 对象匹配和样例类例子：
+
 ```scala
+
 object MatchObject {
-    def main(args: Array[String]): Unit = {
-        val person = new Person("Alice", 18)
+  def main(args: Array[String]): Unit = {
+    val person = new caseclass.Person("Alice", 18)
 
-        val result: String = person match {
-            case Person("Alice", 18) => "Person: Alice, 18"
-            case _ => "something else"
-        }
-        println(result)
-
-        val s = Student("Alice", 18)
-        val result2: String = s match {
-            case Student("Alice", 18) => "Student: Alice, 18"
-            case _ => "something else"
-        }
-        println(result2)
+    val result: String = person match {
+      case caseclass.Person("Alice", 18) => "caseclass.Person: Alice, 18"
+      case _ => "something else"
     }
+    println(result)
+
+    val s = Student("Alice", 18)
+    val result2: String = s match {
+      case Student("Alice", 18) => "Student: Alice, 18"
+      case _ => "something else"
+    }
+    println(result2)
+  }
 }
 
 
-class Person(val name: String, val age: Int)
-object Person {
-    def apply(name: String, age: Int) = new Person(name, age)
-    def unapply(person: Person): Option[(String, Int)] = {
-        if (person == null) { // avoid null reference
-            None
-        } else {
-            Some((person.name, person.age))
-        }
+class caseclass.Person(val name: String, val age: Int)
+
+object caseclass.Person {
+  def apply(name: String, age: Int) = new caseclass.Person(name, age)
+
+  def unapply(person: caseclass.Person): Option[(String, Int)] = {
+    if (person == null) { // avoid null reference
+      None
+    } else {
+      Some((person.name, person.age))
     }
+  }
 }
 
 case class Student(name: String, age: Int) // name and age are vals
