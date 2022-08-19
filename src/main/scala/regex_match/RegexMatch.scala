@@ -5,6 +5,8 @@ import scala.util.matching.Regex
 object RegexMatch {
 
   def main(args: Array[String]): Unit = {
+
+    // .r可以使任意字符串变成一个正则表达式
     val numberPattern: Regex = "[0-9]".r
 
     numberPattern.findFirstMatchIn("awesomepassword") match {
